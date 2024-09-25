@@ -9,10 +9,20 @@ def get_math_text(a, b, c):
         x2 = ((b * (-1)) - d ** 0.5) / 2 * a
         return [x1, x2]
     
-a = input("Введите коэффициент a")
-b = input("Введите коэффициент b")
-c = input("Введите коэффициент c")
+a = input("Введите любой коэффициент a")
+b = input("Введите любой коэффициент b")
+c = input("Введите любой коэффициент c")
 
 solution = get_math_text(a,b,c)
 
 print(solution)
+
+def summ(num1, num2):
+    summa = num1 + num2
+    return summa
+
+checkSumm = summ(solution, 10)
+
+print(checkSumm)
+
+print("Мы полностью готовы к релизу")
