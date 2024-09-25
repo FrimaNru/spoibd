@@ -16,3 +16,11 @@ c = input("Введите коэффициент c")
 solution = get_math_text(a,b,c)
 
 print(solution)
+
+def summ(num1, num2):
+    summa = num1 + num2
+    return summa
+
+checkSumm = summ(solution, 10)
+
+print(checkSumm)
