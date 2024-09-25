@@ -24,3 +24,5 @@ def summ(num1, num2):
 checkSumm = summ(solution, 10)
 
 print(checkSumm)
+
+print("Мы полностью готовы к релизу")
