@@ -1,0 +1,7 @@
+flask
+flask-wtf
+flask-sqlalchemy
+requests
+beautifulsoup4
+werkzeug
+pymysql

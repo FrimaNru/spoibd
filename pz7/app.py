@@ -115,13 +115,6 @@ def dashboard():
 
     return render_template('dashboard.html')
 
-@app.route('/get-users')
-def get_users():
-    try:
-        users = User.query.all()
-        return {"users": [user.to_dict() for user in users]}
-    except Exception as e:
-        return {"error": str(e)}
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
