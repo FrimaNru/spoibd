@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <h1>Результаты парсинга для категории: {{ category }}</h1>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mb-3">Назад</a>
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary mb-3">Назад</a>
         <ul class="list-group">
             {% for product in products %}
                 <li class="list-group-item">

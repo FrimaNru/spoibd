@@ -1,7 +1,9 @@
-flask
-flask-wtf
-flask-sqlalchemy
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bcrypt
+Flask-Login
 requests
-beautifulsoup4
-werkzeug
+BeautifulSoup4
 pymysql
+flask_migrate

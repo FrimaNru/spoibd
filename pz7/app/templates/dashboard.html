@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <h1>Парсинг товаров</h1>
-        <form method="POST" action="{{ url_for('dashboard') }}">
+        <form method="POST" action="{{ url_for('main.dashboard') }}">
             <div class="mb-3">
                 <label for="category" class="form-label">Категория товара</label>
                 <input type="text" id="category" name="category" class="form-control" placeholder="Например, Кресла или Диваны" required>
