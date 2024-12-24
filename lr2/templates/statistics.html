@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика сообщений</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Zvir & Severova WEB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/dashboard">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/facts">Факты в бд</a>
+                    </li>
+                    {% if user.role == 'руководитель' %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/statistics">Статистика</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">Роль: {{ user.role }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">Выйти</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Статистика сообщений</h1>
+
+        <!-- Переключатель между таблицей и графиком -->
+        <div class="d-flex justify-content-center mb-4">
+            <button class="btn btn-primary me-2" id="show-table">Таблица</button>
+            <button class="btn btn-secondary" id="show-chart">График</button>
+        </div>
+
+        <!-- Таблица -->
+        <div id="table-container">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Дата и время</th>
+                        <th scope="col">Username отправителя</th>
+                        <th scope="col">Сообщение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                    <tr>
+                        <td>{{ message.id }}</td>
+                        <td>{{ message.timestamp }}</td>
+                        <td>{{ message.username }}</td>
+                        <td>{{ message.message_text }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- График -->
+        <div id="chart-container" class="d-none">
+            <canvas id="messagesChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Переключение между таблицей и графиком
+        const tableContainer = document.getElementById('table-container');
+        const chartContainer = document.getElementById('chart-container');
+        const showTableButton = document.getElementById('show-table');
+        const showChartButton = document.getElementById('show-chart');
+
+        showTableButton.addEventListener('click', () => {
+            tableContainer.classList.remove('d-none');
+            chartContainer.classList.add('d-none');
+            showTableButton.classList.replace('btn-secondary', 'btn-primary');
+            showChartButton.classList.replace('btn-primary', 'btn-secondary');
+        });
+
+        showChartButton.addEventListener('click', () => {
+            tableContainer.classList.add('d-none');
+            chartContainer.classList.remove('d-none');
+            showChartButton.classList.replace('btn-secondary', 'btn-primary');
+            showTableButton.classList.replace('btn-primary', 'btn-secondary');
+        });
+
+        // Данные для графика (замените реальными данными из сервера)
+        const labels = [{% for message in messages %}"{{ message.timestamp }}",{% endfor %}];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Количество сообщений по времени',
+                data: [{% for message in messages %}1,{% endfor %}], // Замените на количество сообщений в нужный интервал
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Конфигурация графика
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Дата и время'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Количество сообщений'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Инициализация графика
+        const ctx = document.getElementById('messagesChart').getContext('2d');
+        const messagesChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>
